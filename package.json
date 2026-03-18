@@ -1,0 +1,22 @@
+{
+  "name": "vocabot",
+  "version": "1.0.0",
+  "description": "Language learning notes from content URLs to Notion, powered by Claude Code",
+  "type": "module",
+  "bin": {
+    "vocabot": "./bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "templates/"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["notion", "vocabulary", "language-learning", "claude-code", "transcript"],
+  "license": "MIT"
+}
