@@ -51,7 +51,7 @@ Works with **any language pair**. Learning English from Chinese? Japanese from E
 ## Quick Start
 
 ```bash
-git clone https://github.com/your-username/vocabot.git
+git clone https://github.com/Adoraxuu/vocabot.git
 cd vocabot
 npm install
 ```
@@ -71,8 +71,6 @@ The wizard walks you through everything:
 
 Done. Open Claude Code and start dropping URLs.
 
-> After npm publish, this simplifies to just `npx vocabot init`.
-
 ## Supported Content
 
 | Type | How it gets the transcript |
@@ -84,21 +82,12 @@ Done. Open Claude Code and start dropping URLs.
 
 ## Configuration
 
-Two files, zero complexity:
+After running `vocabot init`, two config files are created in your project directory:
 
 - **`.env`** — your Notion token (secret, gitignored)
-- **`.vocabot.json`** — page ID, languages, level (safe to commit)
+- **`.vocabot.json`** — page ID, languages, level
 
-```json
-{
-  "pageId": "328aaf31ee558089...",
-  "originalLanguage": "English",
-  "targetLanguage": "Chinese(Tr)",
-  "targetLevel": "B1"
-}
-```
-
-Want to switch languages? Edit the file or just ask Claude.
+Want to change settings? Just tell Claude Code to update `.vocabot.json`.
 
 ## Optional
 
@@ -163,7 +152,7 @@ MIT
 ## 快速開始
 
 ```bash
-git clone https://github.com/your-username/vocabot.git
+git clone https://github.com/Adoraxuu/vocabot.git
 cd vocabot
 npm install
 ```
@@ -183,8 +172,6 @@ node /path/to/vocabot/bin/cli.js init
 
 搞定。開啟 Claude Code，開始丟網址吧。
 
-> npm publish 後，只需 `npx vocabot init` 即可。
-
 ## 支援的內容類型
 
 | 類型 | 取得逐字稿的方式 |
@@ -196,21 +183,12 @@ node /path/to/vocabot/bin/cli.js init
 
 ## 設定檔
 
-兩個檔案，零複雜度：
+執行 `vocabot init` 後，會在你的專案目錄建立兩個設定檔：
 
 - **`.env`** — Notion token（機密，已 gitignore）
-- **`.vocabot.json`** — 頁面 ID、語言、程度（可安全 commit）
+- **`.vocabot.json`** — 頁面 ID、語言、程度
 
-```json
-{
-  "pageId": "328aaf31ee558089...",
-  "originalLanguage": "English",
-  "targetLanguage": "Chinese(Tr)",
-  "targetLevel": "B1"
-}
-```
-
-想換語言？改檔案，或直接叫 Claude 幫你改。
+想改設定？直接跟 Claude Code 說要改 `.vocabot.json` 就好。
 
 ## 可選安裝
 
