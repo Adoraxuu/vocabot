@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { toCsv, findVocabTables, parseRow } from '../src/export.js';
+import { toCsv, findVocabTables, parseRow, collectVocab } from '../src/export.js';
 import { createZip } from '../src/anki.js';
 
 describe('toCsv', () => {
@@ -127,6 +127,33 @@ describe('parseRow', () => {
 
   it('handles missing table_row property', () => {
     assert.deepEqual(parseRow({ type: 'table_row' }), []);
+  });
+});
+
+describe('collectVocab', () => {
+  it('keeps first row when table has no column header', async () => {
+    const tableBlocks = [
+      { type: 'table', id: 't1', table: { table_width: 5, has_column_header: false } },
+    ];
+    const makeRow = word => ({
+      type: 'table_row',
+      table_row: {
+        cells: [
+          [{ plain_text: word }],
+          [{ plain_text: 'n.' }],
+          [{ plain_text: '翻譯' }],
+          [{ plain_text: 'A1' }],
+          [{ plain_text: `${word} sentence.` }],
+        ],
+      },
+    });
+    const tableRows = [makeRow('alpha'), makeRow('beta')];
+    const rows = await collectVocab('token', [{ id: 'p1' }], {
+      fetchPageBlocks: async () => tableBlocks,
+      fetchTableRows: async () => tableRows,
+    });
+    assert.equal(rows.length, 2);
+    assert.deepEqual(rows.map(r => r.word), ['alpha', 'beta']);
   });
 });
 

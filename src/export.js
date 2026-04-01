@@ -100,6 +100,8 @@ export async function fetchTableRows(token, tableBlockId) {
   return rows;
 }
 
+const defaultFetchers = { fetchPageBlocks, fetchTableRows };
+
 // Returns IDs of table blocks that look like vocabulary tables (5 columns)
 export function findVocabTables(blocks) {
   return blocks
@@ -113,14 +115,18 @@ export function parseRow(tableRowBlock) {
   return cells.map(cell => cell.map(t => t.plain_text ?? '').join(''));
 }
 
-export async function collectVocab(token, pages) {
+export async function collectVocab(token, pages, fetchers = defaultFetchers) {
+  const { fetchPageBlocks: fetchPageBlocksFn, fetchTableRows: fetchTableRowsFn } = fetchers;
   const allRows = [];
   for (const page of pages) {
-    const blocks = await fetchPageBlocks(token, page.id);
+    const blocks = await fetchPageBlocksFn(token, page.id);
     const tableIds = findVocabTables(blocks);
     for (const tableId of tableIds) {
-      const rows = await fetchTableRows(token, tableId);
-      for (const row of rows.slice(1)) { // skip header row
+      const rows = await fetchTableRowsFn(token, tableId);
+      const tableBlock = blocks.find(b => b.id === tableId);
+      const hasHeader = tableBlock?.table?.has_column_header;
+      const dataRows = hasHeader ? rows.slice(1) : rows;
+      for (const row of dataRows) {
         const cells = parseRow(row);
         if (cells.length >= 5 && cells[0]) {
           allRows.push({
